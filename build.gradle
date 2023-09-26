@@ -1,0 +1,41 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.16'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'zerobase'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '1.8'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	runtimeOnly "com.mysql:mysql-connector-j" // runtimeOnly 'mysql:mysql-connector-java' -> 원래는 이러한 코드였음.
+	                                          // 근데 intellij에서 자꾸 mysql을 찾을 수 없다고 함. -> 최신의 스프링부트에서 mysql을 지원하지 않을 리가 없기에 이상하다고 생각이 들었음.
+	                                          //  MySQL 릴리즈 노트를 살펴보니 8.0.31 버전부터 본인들의 네이밍 가이드라인에 맞춰 groupid 및 artifactId를 바꿨다고 함.
+	                                          // 스프링이 얄짤 없이 새로운 버전의 의존성 관리에서는 과거의 네이밍 컨벤션을 빼버리고 새로운 mysql-connector-j 만을 지원하게 된 것임.
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
